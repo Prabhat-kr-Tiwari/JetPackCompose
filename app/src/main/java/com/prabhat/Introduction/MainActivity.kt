@@ -5,22 +5,27 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.prabhat.Introduction.ui.theme.IntroductionTheme
 
 class MainActivity : ComponentActivity() {
@@ -37,92 +42,117 @@ class MainActivity : ComponentActivity() {
 
     @Preview
     @Composable
-    fun firstUI(){
+    fun firstUI() {
 
-        /*Column(
 
-            modifier = Modifier.fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            verticalArrangement =Arrangement.SpaceAround,
-            horizontalAlignment = Alignment.CenterHorizontally
-//            horizontalAlignment = Alignment.End
+        /*Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.5f)
+                .background(MaterialTheme.colorScheme.primaryContainer )
+                .padding(
+
+                    vertical = 10.dp
+
+                *//*start = 40.dp, top = 40.dp*//*)
+
+            ,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Button(onClick = {
 
-            }) {
+            Button(onClick = { *//*TODO*//* }) {
 
-                Text(text = "click Me 1")
+                Text(text = "Button 1")
             }
 
-            Button(onClick = {
-
-            }) {
-                Text(text = "click Me 2")
+            Button(onClick = { *//*TODO*//* }) {
+                Text(text = "Button 2")
             }
         }*/
 
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.5f)
 
-   /*     Row(
+                .background(MaterialTheme.colorScheme.secondary)
 
-//            modifier = Modifier.fillMaxSize()
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(0.4f)
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            verticalAlignment =Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround
-//            horizontalAlignment = Alignment.End
+                .padding(vertical = 40.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .alpha(.8f)
+                .border(12.dp, Color.Green)
+                .padding(10.dp)
+                .border(12.dp, Color.Yellow)
+                .clickable { }
+                .verticalScroll(rememberScrollState())
+                .background(MaterialTheme.colorScheme.primaryContainer)
         ) {
-            Button(onClick = {
-
-            }) {
-
-                Text(text = "click Me 1")
-            }
-
-            Button(onClick = {
-
-            }) {
-                Text(text = "click Me 2")
-            }
-           Button(onClick = {
-
-            }) {
-                Text(text = "click Me 3")
-            }
-        }*/
-
-        //Box
-        Box(
-
-           modifier = Modifier.fillMaxSize()
-               .background(MaterialTheme.colorScheme.primaryContainer),
-
-       ) {
-           Button(
-               modifier = Modifier.align(Alignment.BottomCenter),
-               onClick = {
-
-           }) {
-
-               Text(text = "click Me 1")
-           }
-
-           Button(onClick = {
-
-           }) {
-               Text(text = "click Me 2")
-           }
 
             Button(
+                onClick = { },
+//                modifier = Modifier.offset(10.dp)
+                modifier = Modifier.padding(start = 20.dp)
+            ) {
 
-                modifier = Modifier.align(Alignment.TopCenter),
-                onClick = {
-
-            }) {
-                Text(text = "click Me 3")
+                Text(text = "Button 1")
             }
-       }
+            //spacer
+            Spacer(modifier = Modifier.height(40.dp))
 
+            Button(onClick = { }) {
+                Text(text = "Button 2")
+            }
 
+            Button(
+                onClick = { },
+//                modifier = Modifier.offset(10.dp)
+                modifier = Modifier.padding(start = 20.dp)
+            ) {
+
+                Text(text = "Button 1")
+            }
+
+            Button(onClick = { }) {
+                Text(text = "Button 2")
+            }
+            Button(
+                onClick = { },
+//                modifier = Modifier.offset(10.dp)
+                modifier = Modifier.padding(start = 20.dp)
+            ) {
+
+                Text(text = "Button 1")
+            }
+
+            Button(onClick = { }) {
+                Text(text = "Button 2")
+            }
+
+            Button(
+                onClick = { },
+//                modifier = Modifier.offset(10.dp)
+                modifier = Modifier.padding(start = 20.dp)
+            ) {
+
+                Text(text = "Button 1")
+            }
+
+            Button(onClick = { }) {
+                Text(text = "Button 2")
+            }
+            Button(
+                onClick = { },
+//                modifier = Modifier.offset(10.dp)
+                modifier = Modifier.padding(start = 20.dp)
+            ) {
+
+                Text(text = "Button 1")
+            }
+
+            Button(onClick = { }) {
+                Text(text = "Button 2")
+            }
+        }
     }
 
 }
