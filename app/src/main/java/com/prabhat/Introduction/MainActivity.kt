@@ -14,13 +14,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text2.BasicTextField2
 import androidx.compose.foundation.text2.input.TextFieldLineLimits
-import androidx.compose.foundation.text2.input.TextFieldState
 import androidx.compose.foundation.text2.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -38,14 +38,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prabhat.Introduction.ui.theme.IntroductionTheme
+import com.prabhat.Introduction.ui.theme.font
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +63,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             IntroductionTheme {
 
-                Screen()
+//                Screen()
+                TextScreen()
             }
         }
     }
@@ -157,7 +167,7 @@ class MainActivity : ComponentActivity() {
                             innerTextField()
 
                         }
-                        if(basicTextInput.isNotEmpty()){
+                        if (basicTextInput.isNotEmpty()) {
 
                             Spacer(modifier = Modifier.width(8.dp))
 
@@ -170,14 +180,13 @@ class MainActivity : ComponentActivity() {
                         }
 
 
-
                     }
 
                 }
 
             )
 
-           val textState= rememberTextFieldState()
+            val textState = rememberTextFieldState()
             BasicTextField2(
 
                 modifier = Modifier
@@ -187,7 +196,7 @@ class MainActivity : ComponentActivity() {
                     .clip(RoundedCornerShape(50.dp))
                     .background(MaterialTheme.colorScheme.primaryContainer)
                     .padding(16.dp),
-               state = textState,
+                state = textState,
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                 lineLimits = TextFieldLineLimits.SingleLine,
                 textStyle = TextStyle(
@@ -216,14 +225,14 @@ class MainActivity : ComponentActivity() {
                             innerTextField()
 
                         }
-                        if(textState.text.isNotEmpty()){
+                        if (textState.text.isNotEmpty()) {
 
                             Spacer(modifier = Modifier.width(8.dp))
 
                             Icon(
                                 modifier = Modifier.clickable {
                                     textState.edit {
-                                        this.replace(0,textState.text.length,"")
+                                        this.replace(0, textState.text.length, "")
                                     }
                                 },
                                 imageVector = Icons.Default.Clear, contentDescription = null
@@ -231,10 +240,70 @@ class MainActivity : ComponentActivity() {
                         }
 
 
-
                     }
 
                 }
+
+            )
+        }
+    }
+
+
+    @Preview
+    @Composable
+    fun TextScreen() {
+
+
+        Column(
+
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+
+            Spacer(modifier = Modifier.height(200.dp))
+            val shadowOffset = Offset(5f, 10f)
+            Text(
+//                text = "Some Text is written here what are you doing here hello ",
+                text = buildAnnotatedString {
+                    append("Text is")
+                    withStyle(
+                        SpanStyle
+                            (
+                            color = Color.Red, textDecoration = TextDecoration.LineThrough,
+                                    fontSize = 30.sp
+                        )
+
+                    ) {
+                        append("Here")
+                    }
+
+                    withStyle(
+                        SpanStyle(
+                            color = Color.Yellow
+                        )
+                    ){
+
+                        append("Here")
+                    }
+                },
+                color = MaterialTheme.colorScheme.primary,
+                fontFamily = font,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 22.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontStyle = FontStyle.Italic,
+                textDecoration = TextDecoration.Underline,
+
+                style = TextStyle(
+                    shadow = Shadow(color = Color.Red, offset = shadowOffset, blurRadius = 9f)
+                )
+
+
 
             )
         }
