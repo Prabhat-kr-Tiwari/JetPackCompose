@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -25,6 +27,8 @@ import androidx.compose.foundation.text2.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.rounded.ImageNotSupported
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -42,6 +46,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -53,6 +60,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import com.prabhat.Introduction.ui.theme.IntroductionTheme
 import com.prabhat.Introduction.ui.theme.font
 
@@ -64,7 +76,8 @@ class MainActivity : ComponentActivity() {
             IntroductionTheme {
 
 //                Screen()
-                TextScreen()
+//                TextScreen()
+                ImageScreen()
             }
         }
     }
@@ -274,7 +287,7 @@ class MainActivity : ComponentActivity() {
                         SpanStyle
                             (
                             color = Color.Red, textDecoration = TextDecoration.LineThrough,
-                                    fontSize = 30.sp
+                            fontSize = 30.sp
                         )
 
                     ) {
@@ -285,7 +298,7 @@ class MainActivity : ComponentActivity() {
                         SpanStyle(
                             color = Color.Yellow
                         )
-                    ){
+                    ) {
 
                         append("Here")
                     }
@@ -304,10 +317,131 @@ class MainActivity : ComponentActivity() {
                 )
 
 
-
             )
         }
     }
 
+    @Preview(showBackground = true, showSystemUi = true)
+    @Composable
+    fun ImageScreen() {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 10.dp),
+
+
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Image(
+
+                modifier = Modifier.clip(RoundedCornerShape(20.dp)),
+                painter = painterResource(R.drawable.camera),
+
+                contentDescription = null
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            val imageUrl =
+                "https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"
+
+            val model =
+                ImageRequest.Builder(LocalContext.current).data(imageUrl).size(Size.ORIGINAL)
+                    .build()
+            AsyncImage(
+                modifier = Modifier.clip(RoundedCornerShape(20.dp)),
+                model = model, contentDescription = null
+
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+            val imageState = rememberAsyncImagePainter(model = model).state
+
+            Box(modifier =
+            Modifier
+                .size(300.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(MaterialTheme.colorScheme.secondaryContainer)
+
+
+            ) {
+
+
+                when(imageState){
+
+                    is AsyncImagePainter.State.Loading -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .size(100.dp)
+                                .align(Alignment.Center),
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    is AsyncImagePainter.State.Success -> {
+                        Image(
+                            modifier = Modifier.fillMaxSize()
+
+                            ,
+                            painter = imageState.painter,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                   /* AsyncImagePainter.State.Empty -> TODO()
+                    is AsyncImagePainter.State.Error -> TODO()*/
+                    else->{
+                        Icon(
+                            modifier = Modifier
+                                .size(100.dp)
+                                .align(Alignment.Center),
+                            imageVector = Icons.Rounded.ImageNotSupported, contentDescription = null)
+
+                    }
+
+                }
+
+
+
+               /* if (imageState is AsyncImagePainter.State.Success) {
+
+                    Image(
+                        modifier = Modifier.fillMaxSize()
+
+                            ,
+                        painter = imageState.painter,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop
+                    )
+                }
+                if (imageState is AsyncImagePainter.State.Loading) {
+
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(100.dp)
+                            .align(Alignment.Center),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+                if (imageState is AsyncImagePainter.State.Error) {
+
+                    Icon(
+                        modifier = Modifier
+                            .size(100.dp)
+                            .align(Alignment.Center),
+                        imageVector = Icons.Rounded.ImageNotSupported, contentDescription = null)
+                }*/
+
+
+            }
+
+        }
+
+    }
+
+
 }
+
+
 
