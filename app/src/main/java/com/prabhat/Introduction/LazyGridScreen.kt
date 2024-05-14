@@ -37,12 +37,12 @@ fun LazyGridScreen() {
         columns = GridCells.Adaptive(160.dp)
 //        columns = GridCells.Fixed(2)
     ) {
-        itemsIndexed(MainActivity.items) { index, item ->
+        /*itemsIndexed(MainActivity.items) { index, item ->
 
             GridItem(item = item)
             Spacer(modifier = Modifier.height(8.dp))
 
-        }
+        }*/
 
     }
 

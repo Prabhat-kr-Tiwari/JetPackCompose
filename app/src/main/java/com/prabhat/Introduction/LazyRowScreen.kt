@@ -30,13 +30,13 @@ fun LazyRowScreen() {
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp)
     ) {
-        itemsIndexed(MainActivity.items) { index, item ->
+      /*  itemsIndexed(MainActivity.items) { index, item ->
 
             Spacer(modifier = Modifier.height(8.dp))
             RowItem(item = item)
             Spacer(modifier = Modifier.height(8.dp))
 
-        }
+        }*/
 
     }
 

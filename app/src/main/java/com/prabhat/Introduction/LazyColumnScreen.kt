@@ -31,12 +31,12 @@ fun LazyColumnScreen() {
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp)
     ) {
-        itemsIndexed(MainActivity.items) { index, item ->
+       /* itemsIndexed(MainActivity.items) { index, item ->
 
             ColumnItem(item = item)
             Spacer(modifier = Modifier.height(8.dp))
 
-        }
+        }*/
 
     }
 

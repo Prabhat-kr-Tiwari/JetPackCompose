@@ -4,42 +4,32 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Category
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.prabhat.Introduction.ui.theme.IntroductionTheme
 
 class MainActivity : ComponentActivity() {
 
-    companion object{
-        val items= listOf(
-
-            Item("Item 1",R.drawable.camera),
-            Item("Item 2",R.drawable.avatar),
-            Item("Item 3",R.drawable.rose),
-            Item("Item 4",R.drawable.camera),
-            Item("Item 5",R.drawable.avatar),
-            Item("Item 6",R.drawable.rose),
-            Item("Item 7",R.drawable.camera),
-            Item("Item 8",R.drawable.avatar),
-            Item("Item 9",R.drawable.rose),
-
-            )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,30 +37,69 @@ class MainActivity : ComponentActivity() {
         setContent {
             IntroductionTheme {
 
-                Surface(modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background) {
+                var selectedState by remember {
+                    mutableIntStateOf(0)
+                }
+                Scaffold(
+                    bottomBar = {
+                        NavigationBar {
 
-                    val navHostController= rememberNavController()
-                    NavHost(navController = navHostController, startDestination = "home_screen") {
+                            bottomNavItems.forEachIndexed { index, bottomNavItem ->
+                                NavigationBarItem(
+                                    selected = index == selectedState,
+                                    onClick = {
+                                        selectedState = index
+//                                              navController.navigate(bottomNavItem.route)
+                                    },
+                                    icon = {
 
-                        composable("home_screen"){
-                            HomeScreen(navHostController = navHostController)
+                                        BadgedBox(badge = {
+
+                                            if (bottomNavItem.badges != 0) {
+                                                Badge {
+                                                    Text(text = bottomNavItem.badges.toString())
+                                                }
+
+                                            } else if (bottomNavItem.hasNews) {
+
+                                                Badge()
+
+                                            }
+                                        }) {
+
+
+                                            Icon(
+                                                imageVector =
+                                                if (index == selectedState) {
+                                                    bottomNavItem.selectedIcon
+                                                }else{
+                                                     bottomNavItem.unSelectedIcon
+                                                     },
+                                                contentDescription =bottomNavItem.title
+
+
+                                            )
+                                        }
+
+
+                                    },
+                                    label = {
+                                        Text(text = bottomNavItem.title)
+                                    }
+                                )
+                            }
                         }
+                    },
+                    floatingActionButton = {
 
-                        composable("lazy_row_screen"){
-                            LazyRowScreen()
+                        FloatingActionButton(onClick = { /*TODO*/ }) {
+
                         }
-
-                        composable("lazy_column_screen"){
-                            LazyColumnScreen()
-                        }
-
-                        composable("lazy_grid_screen"){
-                            LazyGridScreen()
-                        }
-
                     }
 
+                ) {
+
+                    val padding=it
 
                 }
             }
@@ -80,36 +109,56 @@ class MainActivity : ComponentActivity() {
 
 }
 
-@Composable
-fun HomeScreen(navHostController: NavHostController) {
+val bottomNavItems = listOf(
+    BottomNavItem(
+        title = "Home",
+        route = "home",
+        selectedIcon = Icons.Filled.Home,
+        unSelectedIcon = Icons.Outlined.Home,
+        hasNews = false,
+        badges = 0
 
-    Column(
-        modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    ),
+
+    BottomNavItem(
+        title = "Posts",
+        route = "posts",
+        selectedIcon = Icons.Filled.Category,
+        unSelectedIcon = Icons.Outlined.Category,
+        hasNews = false,
+        badges = 0
+
+    ),
+    BottomNavItem(
+        title = "Notifications",
+        route = "notifications",
+        selectedIcon = Icons.Filled.Notifications,
+        unSelectedIcon = Icons.Outlined.Notifications,
+        hasNews = false,
+        badges = 5
+
+    ),
+    BottomNavItem(
+        title = "Profile",
+        route = "profile",
+        selectedIcon = Icons.Filled.AccountCircle,
+        unSelectedIcon = Icons.Outlined.AccountCircle,
+        hasNews = true,
+        badges = 0
+
+    ),
+)
+
+data class BottomNavItem(
+    val title: String,
+    val route: String,
+    val selectedIcon: ImageVector,
+    val unSelectedIcon: ImageVector,
+    val hasNews: Boolean,
+    val badges: Int
+)
 
 
-        Button(onClick = { navHostController.navigate("lazy_row_screen") }) {
-
-            Text(text = "Lazy Row")
-
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Button(onClick = { navHostController.navigate("lazy_column_screen") }) {
-
-            Text(text = "Lazy Column")
-
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Button(onClick = { navHostController.navigate("lazy_grid_screen") }) {
-
-            Text(text = "Lazy Grid")
-
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-    }
-
-}
 
 
 
